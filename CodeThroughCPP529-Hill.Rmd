@@ -1,0 +1,58 @@
+---
+title: "Code-Through: A Tour of a COVID-19 Dataset"
+author: "Nicole Hill"
+date: "4/27/2020"
+output: html_document
+---
+
+# Introduction 
+
+We will be using packages native to RStudio (base, stats, graphics) to analyze a hot topic - COVID-19 (specifically in California). This COVID-19 dataset was retrieved from California Health and Human Services Open Data Portal: https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics. The information was collected from hospitals throughout various counties. 
+
+# Dataset Use
+
+This dataset can be used to analyze COVID-19 in California. It can be used to track the spread and recovery over various periods of time in hospitals throughout California.   
+
+# Part 1 - Setup 
+
+Since we will be using packages that are native to RStudio, they should already be installed and loaded. The data was provided in a CSV file, so it can be imported directly into RStudio or via the URL. Information on the vaiables can also be found on the CHHS site mentioned above.  
+
+```{r}
+URL <- "https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv" # This is where the dataset will come from
+
+covid19 <- read.csv(URL) # This tells R to load and call this dataset covid19
+
+head(covid19) # displays the first six rows of the dataset
+```
+
+
+# Part 2 - summary() function 
+
+The summary() function can be used to show useful infomation. Let's take a look at the Total.Count.Deaths for California.  
+
+```{r}
+summary(covid19$Total.Count.Deaths) # We are asking R to show us a summary of the Total.Count.Deaths variable in the covid19 data set
+```
+
+We can see that the lowest death count in any hospital is 0, while the highest for one hospital is 913! California is averaging about 15 deaths per hospital.  
+
+
+# Part 3 - plot() function
+
+The plot() function will have R create a graph of variables of our choosing. 
+
+```{r}
+plot (covid19$Total.Count.Deaths, covid19$Total.Count.Confirmed, xlab= "Total Deaths", ylab= "Total Confirmed Cases") # We are asking R to show us a graph of total deaths as it related to the total confirmed cases
+```
+
+ 
+# Part 4 - table() function 
+
+We can use the table() function to find out how many hospitals in a county have over 50 total deaths
+
+```{r}
+table (covid19$County.Name, covid19$Total.Count.Deaths > 50) # This will sort by county name and tell us how many of the hospital in that county have over 50 deaths 
+
+```
+
+We can see that ALL hospitals in Los Angeles county have had over 50 deaths. 
